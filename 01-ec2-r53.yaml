@@ -2,8 +2,8 @@
   hosts: localhost
   connection: local
   vars:
-    ami_id: ami-09c813fb71547fc4f
-    sg_id: sg-0a1b4bbcf0ceb6b58
+    ami_id: ami-0220d79f3f480ecf5
+    sg_id:  sg-049d47b35fdf228f4
     zone_id: Z0362302V4UECAHA23E4
     domain_name: dawsdevops86.fun
     # we can pass instances through command line using -e
