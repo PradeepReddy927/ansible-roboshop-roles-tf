@@ -1,27 +1,29 @@
 - name: app setup
-  ansible.builtin.import_roles:
-   name: common
-   tasks_from: app-setup.yaml
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-setup.yaml
+  tags:
+  - deployment
 
 - name: nodejs setup
-  # ansible.builtin.import_roles:
+  #ansible.builtin.import_role:
   ansible.builtin.include_role:
     name: common
     tasks_from: nodejs.yaml
   tags:
-  - deployment  
+  - deployment
 
 - name: copy mongo repo
   ansible.builtin.copy:
-      src: mongo.repo
-      dest: /etc/yum.repos.d/mongo.repo
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
 
 - name: install mongodb client
   ansible.builtin.package:
     name: mongodb-mongosh
     state: present
 
-- name: connect to mongodb catalogue
+- name: connnect to mongodb catalogue
   ansible.builtin.command: mongosh {{ MONGODB_HOST }} --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')"
   register: catalogue_output
 
@@ -30,8 +32,8 @@
   when: catalogue_output.stdout | int < 0
 
 - name: app setup
-  ansible.builtin.import_roles:
+  ansible.builtin.import_role:
     name: common
     tasks_from: system-setup.yaml
   tags:
-  - deployment  
+  - deployment
